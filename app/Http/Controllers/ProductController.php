@@ -64,20 +64,18 @@ class ProductController extends Controller
     public function store($id, Request $request)
     {
         $request->validate([
-            "img" => 'required|max:8192|image|mimes:jpeg,png,jpg,svg,gif',
+            "img" => 'required',
             "title" => "required",
             "description" => "required",
             "price" => "required",
             "category_id" => "required|numeric",
         ]);
 
-        $imageName = time() . '.' . $request->img->extension();
-        $request->img->storeAs('products_photo', $imageName);
 
         $product = Product::create([
             'title' => $request->title,
             'description' => $request->description,
-            'img' => asset('products_photo') . '/' . $imageName,
+            'img' => $request->img,
             'price' => $request->price,
             'category_id' => (int) $request->category_id,
             'user_id' => (int) $id,
@@ -147,10 +145,9 @@ class ProductController extends Controller
 
         $product = Product::where('id', $productId)->where('user_id', $id)->first();
         if ($product) {
-            $imgUrl = $request->img;
-
+            $imgString = $request->img;
             $isUpdated = null;
-            if (is_null($imgUrl)) {
+            if (is_null($imgString)) {
                 $isUpdated = $product->update([
                     "title" => $request->title,
                     "description" => $request->description,

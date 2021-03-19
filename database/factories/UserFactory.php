@@ -27,7 +27,6 @@ class UserFactory extends Factory
             "fullname" => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => 'tes12345', // password
-            'avatar' => 'https://ui-avatars.com/api/?size=300'
         ];
     }
 }

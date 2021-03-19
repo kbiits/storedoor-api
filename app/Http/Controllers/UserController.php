@@ -52,20 +52,15 @@ class UserController extends Controller
     public function profilePictureUpload($id, Request $request)
     {
         $request->validate([
-            "image" => 'required|max:4096|image|mimes:jpeg,png,jpg,svg,gif'
+            "image" => 'required'
         ]);
-
-        $imageName = time() . '.' . $request->image->extension();
-        // $imagePath = public_path('user_profile_pict');
-        // $request->image->move($imagePath, $imageName);
-        $request->image->storeAs('user_profile_pict', $imageName);
 
         $user = User::find($id);
         if ($user) {
             // $user->avatar = asset('user_profile_pict') . "/" . $imageName;
             // $user->save();
             $isUpdated = $user->update([
-                "avatar" => asset('user_profile_pict') . "/" . $imageName,
+                "avatar" => $request->image,
             ]);
             if ($isUpdated) {
                 return response()->json([

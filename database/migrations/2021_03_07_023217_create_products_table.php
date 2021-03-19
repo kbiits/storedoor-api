@@ -17,9 +17,9 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('img');
+            $table->longText('img');
             $table->double('rating', 2, 1, true)->unsigned()->default(3);
-            $table->unsignedDecimal('price', 8, 0);
+            $table->unsignedDecimal('price', 7, 0);
             $table->unsignedBigInteger('category_id')->index();
             $table->unsignedBigInteger('user_id')->index();
             $table->timestamps();
